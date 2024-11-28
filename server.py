@@ -40,7 +40,8 @@ def handle_client(client_socket):
         # Communication loop
         while True:
             message = client_socket.recv(1024).decode('utf-8')
-            if not message or message.strip() == "%leave":
+            if message.strip() == "%leave":
+                broadcast_message(f"{username} has left the group.")
                 break
             formatted_message = f"Message from {username}: {message}"
             with lock:
