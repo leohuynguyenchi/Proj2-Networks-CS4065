@@ -76,12 +76,12 @@ def main():
             else:
                 print("You need to connect to the server first using %connect command.")
 
-        # elif command.startswith("%groupjoin"):
-        #     if client_socket:
-        #         _, group = command.split(maxsplit=1)
-        #         client_socket.send(f"%groupjoin {group}".encode('utf-8'))
-        #     else:
-        #         print("You need to connect to the server first using %connect command.")
+        elif command.startswith("%groupjoin"):
+            if client_socket:
+                _, groups = command.split(maxsplit=1)
+                client_socket.send(f"%groupjoin {groups}".encode('utf-8'))
+            else:
+                print("You need to connect to the server first using %connect command.")
 
         # elif command.startswith("%grouppost"):
         #     if client_socket:

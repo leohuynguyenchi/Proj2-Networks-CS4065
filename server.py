@@ -81,12 +81,15 @@ def handle_client(client_socket):
                     groups = list(message_boards.keys())
                 client_socket.send(f"Groups: {', '.join(groups)}".encode('utf-8'))
 
-            # elif message.startswith("%groupjoin"):
-            #     _, group = message.split(maxsplit=1)
-            #     with lock:
-            #         # Add the client to the group
-            #         client_groups[client_socket].append(group)
-            #     broadcast_messages(f"{username} has joined {group}.")
+            elif message.startswith("%groupjoin"):
+                _, groups = message.split(maxsplit=1)
+                with lock:
+                    if client_socket not in client_groups:
+                        client_groups[client_socket] = []
+                    for group in groups:
+                        if group not in client_groups[client_socket]:
+                            client_groups[client_socket].append(group)
+                broadcast_messages(f"{username} has joined {groups}.",group)
             # elif message.startswith("%grouppost"):
             #     _, group, content = message.split(maxsplit=2)
             #     formatted_message = f"Message from {username} in {group}: {content}"
