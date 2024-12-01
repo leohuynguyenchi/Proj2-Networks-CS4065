@@ -22,13 +22,14 @@ def broadcast_message(message):
 # Broadcast a message to all connected clients in a group(s)
 def broadcast_messages(message, group):
     with lock:
-        for client in client_groups:
-            if group in client_groups[client]:
+        print(f"Broadcasting to group {group}: {message}")  # Debug
+        for client, groups in client_groups.items():
+            if group in groups:
+                print(f"Sending to client {client}")  # Debug
                 try:
-                    # Send the message to the client
-                    client.send(message.encode('utf-8'))
-                except:
-                    pass
+                    client.send(f"{message}\n".encode('utf-8'))
+                except Exception as e:
+                    print(f"Error sending to {client}: {e}")
 
 # Handle individual client communication
 def handle_client(client_socket):
@@ -40,15 +41,6 @@ def handle_client(client_socket):
             client_usernames[client_socket] = username
             clients.append(client_socket)
         broadcast_message(f"{username} has joined the public group.")
-
-        # Receive the selected groups from the client
-        # selected_groups = client_socket.recv(1024).decode('utf-8').split(',')
-        # with lock:
-        #     client_groups[client_socket] = selected_groups
-
-        # # Notify all clients in the selected groups that a new user has joined
-        # for group in selected_groups:
-        #     broadcast_messages(f"{username} has joined {group}.", group)
 
         # Send last 2 messages from the group's message board
         history = "Last 2 messages:\n"
@@ -82,14 +74,20 @@ def handle_client(client_socket):
                 client_socket.send(f"Groups: {', '.join(groups)}".encode('utf-8'))
 
             elif message.startswith("%groupjoin"):
-                _, groups = message.split(maxsplit=1)
+                # Extract groups to join from the message
+                _, groups = message.split(maxsplit=1)  # "%groupjoin g1,g2"
+                selected_groups = groups.split(',')
+
                 with lock:
                     if client_socket not in client_groups:
-                        client_groups[client_socket] = []
-                    for group in groups:
+                        client_groups[client_socket] = selected_groups
+                    print(f"user: {username}",selected_groups)
+                    # Add the user to the specified groups, avoiding duplicates
+                    for group in selected_groups:
                         if group not in client_groups[client_socket]:
                             client_groups[client_socket].append(group)
-                broadcast_messages(f"{username} has joined {groups}.",group)
+                        print(f"{username} added to group {group}")  # Debugging
+                broadcast_messages(f"{username} has joined {group}.", group)
             
             elif message.startswith("%grouppost"):
                 _, group, content = message.split(maxsplit=2)
