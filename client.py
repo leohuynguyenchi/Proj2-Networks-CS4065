@@ -19,7 +19,7 @@ def main():
     # Command loop
     while True:
         command = input("> ").strip()
-        # Connect command
+        # Connect command (%connect localhost 8080)
         if command.startswith("%connect"):
             _, address, port = command.split()
             server_address = (address, int(port))
@@ -109,6 +109,17 @@ def main():
             if client_socket:
                 _, group, message_id = command.split(maxsplit=2)
                 client_socket.send(f"%groupmessage {group} {message_id}".encode('utf-8'))
+            else:
+                print("You need to connect to the server first using %connect command.")
+
+        elif command.startswith("%message"):
+            if client_socket:
+                parts = command.split(maxsplit=1)
+                if len(parts) == 2:
+                    _, message_id = parts
+                    client_socket.send(f"%message {message_id}".encode('utf-8'))
+                else:
+                    print("Usage: %message <message_id>")
             else:
                 print("You need to connect to the server first using %connect command.")
 
