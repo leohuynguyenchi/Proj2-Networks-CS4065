@@ -70,11 +70,11 @@ def main():
             print("Exiting the client.")
             break
 
-        # elif command.startswith("%groups"):
-        #     if client_socket:
-        #         client_socket.send("%groups".encode('utf-8'))
-        #     else:
-        #         print("You need to connect to the server first using %connect command.")
+        elif command.startswith("%groups"):
+            if client_socket:
+                client_socket.send("%groups".encode('utf-8'))
+            else:
+                print("You need to connect to the server first using %connect command.")
 
         # elif command.startswith("%groupjoin"):
         #     if client_socket:
