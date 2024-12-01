@@ -90,32 +90,40 @@ def handle_client(client_socket):
                         if group not in client_groups[client_socket]:
                             client_groups[client_socket].append(group)
                 broadcast_messages(f"{username} has joined {groups}.",group)
-            # elif message.startswith("%grouppost"):
-            #     _, group, content = message.split(maxsplit=2)
-            #     formatted_message = f"Message from {username} in {group}: {content}"
-            #     with lock:
-            #         # Add the message to the group's message board
-            #         message_boards[group].append(formatted_message)
-            #         # Broadcast the message to all clients in the group
-            #         broadcast_messages(formatted_message, group)
-            # elif message.startswith("%groupusers"):
-            #     _, group = message.split(maxsplit=1)
-            #     with lock:
-            #         users_in_group = [client_usernames[client] for client in client_groups if group in client_groups[client]]
-            #     client_socket.send(f"Users in {group}: {', '.join(users_in_group)}".encode('utf-8'))
-            # elif message.startswith("%groupmessage"):
-            #     _, group, message_id = message.split(maxsplit=2)
-            #     with lock:
-            #         if int(message_id) < len(message_boards[group]):
-            #             client_socket.send(message_boards[group][int(message_id)].encode('utf-8'))
-            #         else:
-            #             client_socket.send("Message ID not found.".encode('utf-8'))
-            # elif message.startswith("%groupleave"):
-            #     _, group = message.split(maxsplit=1)
-            #     with lock:
-            #         if group in client_groups[client_socket]:
-            #             client_groups[client_socket].remove(group)
-            #             broadcast_messages(f"{username} has left {group}.", group)
+            
+            elif message.startswith("%grouppost"):
+                _, group, content = message.split(maxsplit=2)
+                formatted_message = f"Message from {username} in {group}: {content}"
+                with lock:
+                    # Add the message to the group's message board
+                    message_boards[group].append(formatted_message)
+                    # Broadcast the message to all clients in the group
+                    broadcast_messages(formatted_message, group)
+            
+            elif message.startswith("%groupusers"):
+                _, group = message.split(maxsplit=1)
+                with lock:
+                    users_in_group = []
+                    for client in client_groups:
+                        if group in client_groups[client]:
+                            users_in_group.append(client_usernames[client])
+                            print('users', users_in_group)
+                client_socket.send(f"Users in {group}: {', '.join(users_in_group)}".encode('utf-8'))
+            
+            elif message.startswith("%groupmessage"):
+                _, group, message_id = message.split(maxsplit=2)
+                with lock:
+                    if int(message_id) < len(message_boards[group]):
+                        client_socket.send(message_boards[group][int(message_id)].encode('utf-8'))
+                    else:
+                        client_socket.send("Message ID not found.".encode('utf-8'))
+            
+            elif message.startswith("%groupleave"):
+                _, group = message.split(maxsplit=1)
+                with lock:
+                    if group in client_groups[client_socket]:
+                        client_groups[client_socket].remove(group)
+                        broadcast_messages(f"{username} has left {group}.", group)
             # else:
             #     formatted_message = f"Message from {username}: {message}"
             #     with lock:

@@ -83,34 +83,34 @@ def main():
             else:
                 print("You need to connect to the server first using %connect command.")
 
-        # elif command.startswith("%grouppost"):
-        #     if client_socket:
-        #         _, group, subject, content = command.split(maxsplit=3)
-        #         message = f"%grouppost {group} {subject}: {content}"
-        #         client_socket.send(message.encode('utf-8'))
-        #     else:
-        #         print("You need to connect to the server first using %connect command.")
+        elif command.startswith("%grouppost"):
+            if client_socket:
+                _, group, content = command.split(maxsplit=2)
+                message = f"%grouppost {group} {content}"
+                client_socket.send(message.encode('utf-8'))
+            else:
+                print("You need to connect to the server first using %connect command.")
 
-        # elif command.startswith("%groupusers"):
-        #     if client_socket:
-        #         _, group = command.split(maxsplit=1)
-        #         client_socket.send(f"%groupusers {group}".encode('utf-8'))
-        #     else:
-        #         print("You need to connect to the server first using %connect command.")
+        elif command.startswith("%groupusers"):
+            if client_socket:
+                _, group = command.split(maxsplit=1)
+                client_socket.send(f"%groupusers {group}".encode('utf-8'))
+            else:
+                print("You need to connect to the server first using %connect command.")
 
-        # elif command.startswith("%groupleave"):
-        #     if client_socket:
-        #         _, group = command.split(maxsplit=1)
-        #         client_socket.send(f"%groupleave {group}".encode('utf-8'))
-        #     else:
-        #         print("You need to connect to the server first using %connect command.")
+        elif command.startswith("%groupleave"):
+            if client_socket:
+                _, group = command.split(maxsplit=1)
+                client_socket.send(f"%groupleave {group}".encode('utf-8'))
+            else:
+                print("You need to connect to the server first using %connect command.")
 
-        # elif command.startswith("%groupmessage"):
-        #     if client_socket:
-        #         _, group, message_id = command.split(maxsplit=2)
-        #         client_socket.send(f"%groupmessage {group} {message_id}".encode('utf-8'))
-        #     else:
-        #         print("You need to connect to the server first using %connect command.")
+        elif command.startswith("%groupmessage"):
+            if client_socket:
+                _, group, message_id = command.split(maxsplit=2)
+                client_socket.send(f"%groupmessage {group} {message_id}".encode('utf-8'))
+            else:
+                print("You need to connect to the server first using %connect command.")
 
         else:
             print("Unknown command. Please use one of the specified commands.")
