@@ -96,7 +96,7 @@ def handle_client(client_socket):
                     # Add the message to the group's message board
                     message_boards[group].append(formatted_message)
                     # Broadcast the message to all clients in the group
-                    broadcast_messages(formatted_message, group)
+                broadcast_messages(formatted_message, group)
             
             elif message.startswith("%groupusers"):
                 _, group = message.split(maxsplit=1)
@@ -121,7 +121,7 @@ def handle_client(client_socket):
                 with lock:
                     if group in client_groups[client_socket]:
                         client_groups[client_socket].remove(group)
-                        broadcast_messages(f"{username} has left {group}.", group)
+                broadcast_messages(f"{username} has left {group}.", group)
             # else:
             #     formatted_message = f"Message from {username}: {message}"
             #     with lock:
