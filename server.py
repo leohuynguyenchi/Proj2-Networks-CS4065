@@ -104,7 +104,6 @@ def handle_client(client_socket):
                 with lock:
                     if group not in client_groups.get(client_socket, []):
                         client_socket.send(f"You are not a member of {group}".encode('utf-8'))
-                        return
                     if group in client_groups.get(client_socket, []):
                         message_id = len(message_boards[group])  # Use the length of the group's message board as the message ID
                         formatted_message = f"Message from {username} in {group} with ID {message_id}: {content}"
