@@ -64,8 +64,13 @@ def handle_client(client_socket):
 
             # Check for special commands
             if message.strip() == "%leave":
+                with lock:
+                    if client_socket in clients:
+                        clients.remove(client_socket)
+                    username = client_usernames.pop(client_socket, "Unknown")
                 # Client wants to leave the public group
                 broadcast_message(f"{username} has left the public group.")
+                client_socket.close()
                 break
 
             elif message.strip() == "%users":
