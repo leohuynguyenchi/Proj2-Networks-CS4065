@@ -69,6 +69,13 @@ def main():
                 client_socket.close()
             print("Exiting the client.")
             break
+        # Message command
+        elif command.startswith("%message"):
+            if client_socket:
+                _, message_id = command.split(maxsplit=1)
+                client_socket.send(f"%message {message_id}".encode('utf-8'))
+            else:
+                print("You need to connect to the server first using %connect command.")
 
         elif command.startswith("%groups"):
             if client_socket:
