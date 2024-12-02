@@ -101,12 +101,15 @@ def handle_client(client_socket):
             elif message.startswith("%groupusers"):
                 _, group = message.split(maxsplit=1)
                 with lock:
-                    users_in_group = []
-                    for client in client_groups:
-                        if group in client_groups[client]:
-                            users_in_group.append(client_usernames[client])
-                            print('users', users_in_group)
-                client_socket.send(f"Users in {group}: {', '.join(users_in_group)}".encode('utf-8'))
+                    if group in client_groups.get(client_socket, []):
+                        users_in_group = [
+                            client_usernames[client]
+                            for client in client_groups
+                            if group in client_groups[client]
+                        ]
+                        client_socket.send(f"Users in {group}: {', '.join(users_in_group)}".encode('utf-8'))
+                    else:
+                        client_socket.send(f"You are not a member of {group}".encode('utf-8'))
             
             elif message.startswith("%groupmessage"):
                 _, group, message_id = message.split(maxsplit=2)
