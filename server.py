@@ -101,11 +101,16 @@ def handle_client(client_socket):
             elif message.startswith("%grouppost"):
                 # Client wants to post a message to a group
                 _, group, content = message.split(maxsplit=2)
-                message_id = len(message_boards[group])  # Use the length of the group's message board as the message ID
-                formatted_message = f"Message from {username} in {group} with ID {message_id}: {content}"
                 with lock:
-                    message_boards[group].append(formatted_message)
-                broadcast_messages(formatted_message, group)
+                    if group not in client_groups.get(client_socket, []):
+                        client_socket.send(f"You are not a member of {group}".encode('utf-8'))
+                        return
+                    if group in client_groups.get(client_socket, []):
+                        message_id = len(message_boards[group])  # Use the length of the group's message board as the message ID
+                        formatted_message = f"Message from {username} in {group} with ID {message_id}: {content}"
+                        message_boards[group].append(formatted_message)
+                if group in client_groups.get(client_socket, []):
+                    broadcast_messages(formatted_message, group)
 
             elif message.startswith("%groupusers"):
                 # Client requests the list of users in a group
