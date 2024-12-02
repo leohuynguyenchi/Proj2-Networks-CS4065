@@ -25,6 +25,7 @@ Usage:
 
 import socket     # For networking operations
 import threading  # For handling concurrent threads
+import datetime   # For date and time operations
 
 def receive_messages(sock):
     # Function to continuously receive messages from the server
@@ -78,7 +79,9 @@ def main():
             if client_socket:
                 # Extract the message content after the command
                 _, content = command.split(maxsplit=1)
-                message = f"{content}"
+                # Get the current date and time
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                message = f"Date: {timestamp}, Content: {content}"
                 client_socket.send(message.encode('utf-8'))
             else:
                 print("You need to connect to the server first using %connect command.")

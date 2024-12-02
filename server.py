@@ -154,7 +154,8 @@ def handle_client(client_socket):
 
             else:
                 # Treat as a regular message to be added to the public message board
-                formatted_message = f"Message from {username}: {message}"
+                message_id = len(message_board)  # Use the length of the message board as the message ID
+                formatted_message = f"Message from {username} with ID: {message_id}: {message}"
                 with lock:
                     # Add the message to the public message board
                     message_board.append(formatted_message)
