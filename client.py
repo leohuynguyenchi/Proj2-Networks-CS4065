@@ -139,7 +139,8 @@ def main():
         elif command.startswith("%grouppost"):
             if client_socket:
                 _, group, content = command.split(maxsplit=2)
-                message = f"%grouppost {group} {content}"
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                message = f"%grouppost {group} Date: {timestamp}, Content: {content}"
                 client_socket.send(message.encode('utf-8'))
             else:
                 print("You need to connect to the server first using %connect command.")
