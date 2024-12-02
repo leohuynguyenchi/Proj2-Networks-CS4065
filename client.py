@@ -5,7 +5,7 @@ This script implements a command-line chat client that connects to a chat server
 It supports various commands to interact with the server and other users.
 
 Commands:
-    %connect <address> <port> - Connect to the chat server
+    %connect localhost 8080 - Connect to the chat server
     %join - Join the server with a username
     %post <message> - Send a message to all users
     %users - Get the list of users connected to the server
@@ -13,7 +13,7 @@ Commands:
     %exit - Exit the chat client
     %message <message_id> - Retrieve a specific message by ID
     %groups - List available groups
-    %groupjoin <group_names> - Join specified groups
+    %groupjoin <group_names> - Join specified groups - e.g %groupjoin g1,g2,g3
     %grouppost <group> <message> - Send a message to a group
     %groupusers <group> - List users in a group
     %groupleave <group> - Leave a group
