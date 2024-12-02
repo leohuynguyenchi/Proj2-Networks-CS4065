@@ -170,16 +170,6 @@ def handle_client(client_socket):
                     message_board.append(formatted_message)
                 # Broadcast the message to all clients in the public message board
                 broadcast_message(formatted_message)
-
-            # The following commented code seems to be old or unused
-            # else:
-            #     formatted_message = f"Message from {username}: {message}"
-            #     with lock:
-            #         for group in selected_groups:
-            #             # Add the message to the group's message board
-            #             message_boards[group].append(formatted_message)
-            #             # Broadcast the message to all clients in the group
-            #             broadcast_messages(formatted_message, group)
     except:
         # Handle any exceptions that occur in the communication loop
         pass
