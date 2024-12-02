@@ -69,6 +69,7 @@ def main():
                 username = input("Enter your username: ")
                 # Send the username to the server
                 client_socket.send(username.encode('utf-8'))
+                client_socket.send("%users".encode('utf-8')) # Request the list of users
             else:
                 print("You need to connect to the server first using %connect command.")
 
