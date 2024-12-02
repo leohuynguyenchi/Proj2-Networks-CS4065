@@ -131,12 +131,16 @@ def handle_client(client_socket):
                 # Client requests a specific message from a group's message board
                 _, group, message_id = message.split(maxsplit=2)
                 with lock:
-                    if int(message_id) < len(message_boards[group]):
-                        # If the message ID is valid
-                        client_socket.send(message_boards[group][int(message_id)].encode('utf-8'))
+                    if group in client_groups.get(client_socket, []):
+                        if int(message_id) < len(message_boards[group]):
+                            # If the message ID is valid
+                            client_socket.send(message_boards[group][int(message_id)].encode('utf-8'))
+                        else:
+                            # If the message ID is invalid
+                            client_socket.send("Message ID not found.".encode('utf-8'))
                     else:
-                        # If the message ID is invalid
-                        client_socket.send("Message ID not found.".encode('utf-8'))
+                        # If the client is not a member of the group
+                        client_socket.send(f"You are not a member of {group}".encode('utf-8'))
 
             elif message.startswith("%groupleave"):
                 # Client wants to leave a group
