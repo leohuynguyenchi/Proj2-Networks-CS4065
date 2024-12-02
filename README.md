@@ -2,19 +2,16 @@
 # Proj2-Networks-CS4065
 This is a project 2 for Computer Networks class - Fall 2024
 
-**Project Overview**
-This project implements a Bulletin Board System using a client-server architecture with sockets. It supports:
+**Project Overview**: This project implements a Bulletin Board System using a client-server architecture with sockets. It supports:
 
 - A single public message board where users can join, post, and retrieve messages.
 - Multiple private message groups where users can join specific groups, post, and interact with users within those groups.
 - Both the client and server are written in Python.
 
-**Compilation and Running Instructions
-**
+**Compilation and Running Instructions**
 _Prerequisites_: Ensure Python (version 3.6 or later) is installed.
 
-**Steps to Run
-**
+**Steps to Run**
 1. Start the Server:
    - Navigate to the directory containing the server.py file.
    - Run "_python server.py_" in the terminal
@@ -23,8 +20,8 @@ _Prerequisites_: Ensure Python (version 3.6 or later) is installed.
    - Navigate to the directory containing client.py file.
    - Run "_python client.py_" in the different terminal
 
-**Usability Instructions
-**
+**Usability Instructions**
+
 _Part 1_:
 - %connect localhost 8080: Connect to the server.
 - %join: Join the public message board.
