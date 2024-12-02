@@ -9,6 +9,7 @@ This is a project 2 for Computer Networks class - Fall 2024
 - Both the client and server are written in Python.
 
 **Compilation and Running Instructions**
+
 _Prerequisites_: Ensure Python (version 3.6 or later) is installed.
 
 **Steps to Run**
